@@ -5,6 +5,36 @@ from sigpyproc.header import Header
 from sigpyproc.readers import FilReader
 
 
+def create_header(
+    filename="synthetic_noise.fil",
+    nchans=1024,
+    foff=-0.390625,
+    fch1=1500.0,
+    nbits=8,
+    tsamp=0.000064,
+    tstart=58000.0,
+    nsamples=0,
+    source="SyntheticNoise"
+):
+    """
+    Constructs a sigpyproc Header object directly using keyword arguments.
+    """
+    return Header(
+        filename=str(filename),
+        data_type= "filterbank",
+        nchans=int(nchans),
+        foff=float(foff),
+        fch1=float(fch1),
+        nbits=int(nbits),
+        tsamp=float(tsamp),
+        tstart=float(tstart),
+        nsamples=int(nsamples),
+        source=source,
+        rawdatafile=str(filename)
+    )
+
+
+
 class IterativeFilterbankWriter:
     """
     A stateful wrapper class around sigpyproc to iteratively stream and write 
