@@ -148,11 +148,11 @@ def inject_signal(buffer_block, chunk_size, period, width, dm, centre_frq, occup
 
 
 
-def inject_filterbank(input_file, output_filename, period, width, dm, mid_freq, band_occ)
-"""
-   Injects signal in the noise filterbank file and writes out a new filterbank. Needs period and width in seconds, frequency in MHz
-   Band occupancy of the signal in fraction, and injection SNR. Unfortunately presto can't read filterbank wirtten by sigpyproc.
-"""
+def inject_filterbank(input_file, output_filename, period, width, dm, mid_freq, band_occ, injection_snr):
+    """
+    Injects signal in the noise filterbank file and writes out a new filterbank. Needs period and width in seconds, frequency in MHz
+    Band occupancy of the signal in fraction, and injection SNR. Unfortunately presto can't read filterbank wirtten by sigpyproc.
+    """
  
     # Get the header
     fil_in = FilReader(input_file)
