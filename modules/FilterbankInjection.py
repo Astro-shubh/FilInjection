@@ -111,6 +111,22 @@ def get_scaling_factors(injection_snr, width, tsamp, band_width, nchans, band_oc
     return scaling
 
 
+def generate_scaled_gaussian(nbins: int, sc: float) -> np.ndarray:
+    """ Generates a Gaussian shape of nbins constistent with the scalign factor, Generating some negative part in injected pulses currently """
+    x = np.arange(nbins)
+    center = (nbins - 1) / 2.0
+    fwhm = nbins / 2.0
+    sigma = fwhm / (2.0 * np.sqrt(2.0 * np.log(2.0)))
+
+    gaussian = np.exp(-0.5 * ((x - center) / sigma) ** 2)
+    current_mean = np.mean(gaussian)
+
+    if current_mean == 0:
+        return np.zeros(nbins)
+
+    scaled_gaussian = gaussian * (sc / current_mean)
+    return scaled_gaussian
+
 
 def get_delay_samps(current_frq, highest_frq, tsamp, dm):
     """
@@ -141,6 +157,7 @@ def inject_signal(buffer_block, chunk_size, period, width, dm, centre_frq, occup
 
     scaling = get_scaling_factors(injection_snr, width, tsamp, bandwidth, nchans, occupancy_frc)
     nbins = int(width/tsamp)
+#    scaling = generate_scaled_gaussian(nbins, scaling)
     start_chan = centrer_chan - side_inj_chans
     if(start_chan < 0):
         start_chan = 0
